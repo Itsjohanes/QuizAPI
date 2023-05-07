@@ -37,7 +37,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     private TextView profile;
     private  Button simpan;
 
-
+    public int jumlahSoalFix;
 
 
     @Override
@@ -66,6 +66,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         simpan = findViewById(R.id.btn_simpan);
         simpan.setOnClickListener(this);
 
+
         //pasang recycle view
         data();
 
@@ -80,6 +81,8 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
                     List<Soal> SoalList = response.body().getListSoal();
                     Log.d("Retrofit Get", "Jumlah Barang : " +
                             String.valueOf(SoalList.size()));
+                    jumlahSoalFix = SoalList.size();
+
                     SoalAdapter listBarangAdapter = new SoalAdapter(SoalList);
                     mRecyclerView.setItemViewCacheSize(SoalList.size());
                     mRecyclerView.setAdapter(listBarangAdapter);
@@ -128,7 +131,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             }
             Log.d("kunci",kuncii);
             for (String i : jawaban.keySet()) {
-                jawabann = jawabann + jawaban.get(i) + " ";
+                jawabann = jawabann + jawaban.get(i) + ",";
 
             }
 
@@ -136,6 +139,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             quiz.putExtra("Kunci",kunci);
             quiz.putExtra("Jawaban",jawaban);
             quiz.putExtra("IsiJawaban",jawabann);
+            quiz.putExtra("JumlahSoal",jumlahSoalFix);
             startActivity(quiz);
         }
     }

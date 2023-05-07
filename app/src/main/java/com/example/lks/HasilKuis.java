@@ -1,7 +1,9 @@
 package com.example.lks;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +32,7 @@ public class HasilKuis extends AppCompatActivity implements View.OnClickListener
     public static int benar,salah,kosong,score;
     public String IsiJawaban;
     SessionManager SessionManager;
+    public  int jumlahSoal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,7 @@ public class HasilKuis extends AppCompatActivity implements View.OnClickListener
         HashMap<String, String> jawaban = (HashMap<String, String>) getIntent().getSerializableExtra("Jawaban");
         HashMap<String, String> kunci = (HashMap<String, String>) getIntent().getSerializableExtra("Kunci");
         IsiJawaban = (String) getIntent().getSerializableExtra("IsiJawaban");
+        jumlahSoal = (int) getIntent().getSerializableExtra("JumlahSoal");
         TextView hasil = (TextView)findViewById(R.id.hasil);
         TextView nilai = (TextView)findViewById(R.id.nilai);
 
@@ -48,20 +52,17 @@ public class HasilKuis extends AppCompatActivity implements View.OnClickListener
         salah = 0;
         kosong = 0;
 
-        int jumlah = kunci.size();
-        benar = jumlah;
+        int jumlah = jumlahSoal;
         Log.d("Jumlah",Integer.toString(jumlah));
         for (String i : kunci.keySet()) {
-            if(jawaban.get(i).equals("NULL") == true){
-                kosong++;
-                benar--;
-            }else if(jawaban.get(i).equals(kunci.get(i)) == false){
+            if(jawaban.get(i).equals(kunci.get(i)) == false && !jawaban.get(i).equals("NULL")){
                 salah++;
-                benar--;
+            }else if(jawaban.get(i).equals(kunci.get(i))){
+                benar++;
             }
 
         }
-
+        kosong = jumlah - salah - benar;
         Log.d("Benar", Integer.toString(benar));
         Log.d("Salah",Integer.toString(salah));
         Log.d("Kosong",Integer.toString(kosong));
@@ -86,6 +87,22 @@ public class HasilKuis extends AppCompatActivity implements View.OnClickListener
 
 
         }
+    }
+
+
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Terdeteksi Pelanggaran")
+                .setMessage("Silakan pencet simpan terlebih dahulu")
+                .setNeutralButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .show();
     }
     public void save(){
 
