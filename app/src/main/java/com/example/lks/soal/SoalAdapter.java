@@ -62,12 +62,13 @@ public class SoalAdapter extends RecyclerView.Adapter<SoalAdapter.ListViewHolder
 
         try{
 
+
+
             holder.soal.setText(mSoalList.get(position).getSoal());
             holder.a.setText(mSoalList.get(position).getOpsi_a());
             holder.b.setText(mSoalList.get(position).getOpsi_b());
             holder.c.setText(mSoalList.get(position).getOpsi_c());
             holder.d.setText(mSoalList.get(position).getOpsi_d());
-            holder.e.setText(mSoalList.get(position).getOpsi_e());
 
             QuizActivity.kunci.put(mSoalList.get(position).getId_soal(),mSoalList.get(position).getKunci());
             //Inisialisasi awal untuk jawaban
